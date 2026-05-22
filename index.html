@@ -1,1 +1,51 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>品牌行銷科每日工作推進紀錄</title>
+<style>
+body{font-family:'Noto Sans TC','Microsoft JhengHei',Arial,sans-serif;background:#f6f4ef;color:#222;margin:0;padding:32px}main{max-width:1180px;margin:auto}.card{background:#fff;border:1px solid #e5ded3;border-radius:18px;padding:24px;margin:0 0 20px;box-shadow:0 8px 24px rgba(0,0,0,.06)}h1{margin:0 0 8px;font-size:32px}h2{margin:0 0 16px;font-size:22px}.desc,.hint{color:#756f68}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.f{display:flex;flex-direction:column;gap:6px}.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}.c12{grid-column:span 12}label{font-weight:700;font-size:13px}input,select,textarea{border:1px solid #ded6ca;border-radius:12px;padding:11px;font:inherit;background:#fffdf9}textarea{min-height:82px}button{border:0;border-radius:999px;padding:11px 18px;font-weight:800;cursor:pointer}.primary{background:#5b7f74;color:#fff}.secondary{background:#ece6dc}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.chip{background:#edf5f1;color:#3f6259;border-radius:999px;padding:8px 12px;font-weight:800}.chip button{padding:0 6px;margin-left:6px}.msg{display:none;padding:12px;border-radius:12px;margin-top:12px;font-weight:800}.ok{display:block;background:#edf5f1;color:#3f6259}.warn{display:block;background:#fff7df;color:#775b10}.table{overflow:auto;border:1px solid #e5ded3;border-radius:14px}table{width:100%;border-collapse:collapse;min-width:1200px}th,td{border-bottom:1px solid #e5ded3;padding:10px;text-align:left;vertical-align:top;font-size:14px}th{background:#faf8f4}.pill{border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800;white-space:nowrap}.risk{background:#fff0ef;color:#a23c30}.coord{background:#fff1df;color:#8a5b16}.normal{background:#edf5f1;color:#3f6259}.wait{background:#f2f2f2;color:#555}@media(max-width:850px){.c2,.c3,.c4,.c6,.c12{grid-column:span 12}}
+</style>
+</head>
+<body><main>
+<section class="card"><h1>品牌行銷科每日工作推進紀錄</h1><p class="desc">以 PDCA 掌握每日推進、卡點與週會討論事項。這不是日報，而是低壓、可追蹤的進度控管工具。</p></section>
+<section class="card"><h2>新增今日紀錄</h2><form id="form" class="grid">
+<div class="f c2"><label>日期</label><input id="date" type="date" required></div>
+<div class="f c2"><label>姓名</label><select id="name" required></select></div>
+<div class="f c4"><label>工作大項</label><select id="cat" required></select></div>
+<div class="f c4"><label>工作主題類型</label><select id="type" required></select></div>
+<div class="f c6"><label>工作內容簡述</label><input id="summary" required placeholder="例：葉黃素新品上市 IMC 第一版架構"></div>
+<div class="f c3"><label>PDCA 進度狀態</label><select id="status" required><option>P｜計畫確認中</option><option>D｜執行推進中</option><option>C｜成果檢核中</option><option>A｜調整優化中</option><option>需協調支援</option><option>有風險需決策</option><option>暫停等待</option></select></div>
+<div class="f c3"><label>需週會討論</label><select id="weekly"><option>否</option><option>是</option></select></div>
+<div class="f c6"><label>今日推進重點</label><textarea id="progress" required></textarea></div>
+<div class="f c6"><label>卡點或待協助事項</label><textarea id="blocker" placeholder="若無可填：無"></textarea></div>
+<div class="f c6"><label>明日優先事項</label><textarea id="next" required></textarea></div>
+<div class="f c6"><label>備註／連結</label><input id="link" type="url"></div>
+<div class="c12"><button class="secondary" type="button" id="reset">清空</button> <button class="primary" type="submit">新增紀錄</button><div id="msg" class="msg"></div></div>
+</form></section>
+<section class="card"><h2>人員名單管理</h2><div class="row"><div class="f" style="flex:1;min-width:240px"><label>新增人員</label><input id="newPerson"></div><button class="primary" id="addPerson">新增人員</button></div><div id="people" class="row" style="margin-top:12px"></div></section>
+<section class="card"><h2>主管通知設定</h2><p class="hint">狀態為「需協調支援、有風險需決策、暫停等待」時，會自動通知以下信箱。</p><div class="row"><div class="f" style="flex:1;min-width:260px"><label>新增主管通知信箱</label><input id="newEmail" type="email"></div><button class="primary" id="addEmail">新增信箱</button></div><div id="emails" class="row" style="margin-top:12px"></div></section>
+<section class="card"><h2>品牌行銷科進度總覽</h2><div class="row" style="margin-bottom:14px"><div class="f"><label>依月份篩選</label><input id="filterMonth" type="month"></div><div class="f"><label>姓名</label><select id="filterName"></select></div><div class="f"><label>工作大項</label><select id="filterCat"></select></div><div class="f"><label>狀態</label><select id="filterStatus"><option>全部</option><option>P｜計畫確認中</option><option>D｜執行推進中</option><option>C｜成果檢核中</option><option>A｜調整優化中</option><option>需協調支援</option><option>有風險需決策</option><option>暫停等待</option></select></div><button class="secondary" id="clearFilter">顯示全部</button></div><p id="hint" class="hint"></p><div class="table"><table><thead><tr><th>日期</th><th>姓名</th><th>工作大項</th><th>主題類型</th><th>工作內容簡述</th><th>今日推進</th><th>狀態</th><th>卡點</th><th>明日優先</th><th>週會</th><th>連結</th><th>操作</th></tr></thead><tbody id="body"></tbody></table></div></section>
+</main><script>
+const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzwriuoYdd2fidpWAgO2vYX_kbt05QHcXLtqy00OQoU2rTcrqboWVqmSR5uq7iZfms3fQ/exec';
+const high=['需協調支援','有風險需決策','暫停等待'];
+const workTypes={'品牌策略':['上市規劃','IMC 規劃','提案簡報','視覺規劃','腳本規劃','進稿管理','其他'],'行銷活動':['講座活動','影音拍攝','Podcast／媒體合作','異業合作','其他'],'戶外廣告':['版位規劃','版位挑選','素材設計','素材進稿','上刊確認','其他'],'數位媒體':['廣告投放','內容媒體','口碑論壇','KOL／部落客','社群操作','其他'],'官網與電商':['官網頁面','商品頁','商說圖','購物流程','預購活動','其他'],'LINE／CRM／會員':['LINE 旅程','會員旅程','EDM','簡訊','貼標／分眾','系統串接','其他'],'輔銷與通路物料':['DM','POP／展架','據點陳列','贈品配置','商拍','其他'],'內部支援':['教育訓練','業務工具包','簽呈／流程','跨部門協作','其他'],'其他／臨時任務':['其他']};
+let people=JSON.parse(localStorage.people||'null')||['Alina','Vivian','Min','Claire'];let emails=JSON.parse(localStorage.emails||'null')||['alina.hsu@cathay-hcm.com.tw','christine.shieh@cathay-hcm.com.tw'];let records=JSON.parse(localStorage.records||'[]');
+const $=id=>document.getElementById(id), esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function today(){let d=new Date();d=new Date(d.getTime()-d.getTimezoneOffset()*60000);return d.toISOString().slice(0,10)}
+function save(){localStorage.people=JSON.stringify(people);localStorage.emails=JSON.stringify(emails);localStorage.records=JSON.stringify(records)}
+function renderPeople(){name.innerHTML='<option value="">請選擇</option>'+people.map(p=>`<option>${esc(p)}</option>`).join('');filterName.innerHTML='<option>全部</option>'+people.map(p=>`<option>${esc(p)}</option>`).join('');peopleEl.innerHTML=people.map(p=>`<span class="chip">${esc(p)} <button onclick="delPerson('${esc(p)}')">×</button></span>`).join('')}
+function renderCats(){let cs=Object.keys(workTypes);cat.innerHTML='<option value="">請選擇</option>'+cs.map(c=>`<option>${esc(c)}</option>`).join('');filterCat.innerHTML='<option>全部</option>'+cs.map(c=>`<option>${esc(c)}</option>`).join('');updateTypes()}
+function updateTypes(){let ts=workTypes[cat.value]||[];type.innerHTML='<option value="">請先選擇工作大項</option>'+ts.map(t=>`<option>${esc(t)}</option>`).join('')}
+function renderEmails(){emailsEl.innerHTML=emails.map(e=>`<span class="chip">${esc(e)} <button onclick="delEmail('${esc(e)}')">×</button></span>`).join('')}
+function cls(s){return s==='有風險需決策'?'risk':s==='需協調支援'?'coord':s==='暫停等待'?'wait':'normal'}
+function filtered(){return records.filter(r=>(!filterMonth.value||r.date.slice(0,7)===filterMonth.value)&&(filterName.value==='全部'||r.name===filterName.value)&&(filterCat.value==='全部'||r.workCategory===filterCat.value)&&(filterStatus.value==='全部'||r.status===filterStatus.value))}
+function render(){let fs=filtered();hint.textContent=filterMonth.value?`目前顯示 ${filterMonth.value}，共 ${fs.length} 筆；全部紀錄共 ${records.length} 筆。`:`未篩選月份，顯示全部紀錄。`;body.innerHTML=fs.map(r=>`<tr><td>${esc(r.date)}</td><td><b>${esc(r.name)}</b></td><td>${esc(r.workCategory)}</td><td>${esc(r.workType)}</td><td>${esc(r.workSummary)}</td><td>${esc(r.progress)}</td><td><span class="pill ${cls(r.status)}">${esc(r.status)}</span></td><td>${esc(r.blocker||'無')}</td><td>${esc(r.next)}</td><td>${esc(r.weekly)}</td><td>${r.link?`<a href="${esc(r.link)}" target="_blank">開啟</a>`:'—'}</td><td><button onclick="delRec(${records.indexOf(r)})">刪除</button></td></tr>`).join('')}
+async function send(r){let payload={...r,project:`${r.workCategory}｜${r.workType}｜${r.workSummary}`,supervisorEmails:emails,shouldNotify:high.includes(r.status),source:'品牌行銷科每日工作推進紀錄'};try{await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});msg.className='msg ok';msg.textContent='已新增紀錄並送出到 Google Sheets。'}catch(e){msg.className='msg warn';msg.textContent='已儲存在本機，但送出到 Google Sheets 失敗。'}}
+const name=$('name'),cat=$('cat'),type=$('type'),peopleEl=$('people'),emailsEl=$('emails'),body=$('body'),hint=$('hint'),msg=$('msg'),filterName=$('filterName'),filterCat=$('filterCat'),filterStatus=$('filterStatus'),filterMonth=$('filterMonth');
+window.delPerson=p=>{people=people.filter(x=>x!==p);save();renderPeople()};window.delEmail=e=>{emails=emails.filter(x=>x!==e);save();renderEmails()};window.delRec=i=>{records.splice(i,1);save();render()};
+cat.onchange=updateTypes;['filterName','filterCat','filterStatus','filterMonth'].forEach(id=>$(id).onchange=render);clearFilter.onclick=()=>{filterMonth.value='';filterName.value='全部';filterCat.value='全部';filterStatus.value='全部';render()};
+addPerson.onclick=()=>{let v=newPerson.value.trim();if(v&&!people.includes(v)){people.push(v);newPerson.value='';save();renderPeople()}};addEmail.onclick=()=>{let v=newEmail.value.trim();if(v&&!emails.includes(v)){emails.push(v);newEmail.value='';save();renderEmails()}};reset.onclick=()=>{form.reset();date.value=today();updateTypes()};
+form.onsubmit=async e=>{e.preventDefault();let r={date:date.value,name:name.value,workCategory:cat.value,workType:type.value,workSummary:summary.value.trim(),status:status.value,weekly:weekly.value,progress:progress.value.trim(),blocker:blocker.value.trim(),next:next.value.trim(),link:link.value.trim()};records.unshift(r);save();render();await send(r);form.reset();date.value=today();updateTypes()};
+date.value=today();renderCats();renderPeople();renderEmails();render();
+</script></body></html>
