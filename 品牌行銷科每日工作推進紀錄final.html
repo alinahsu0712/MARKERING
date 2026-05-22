@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>品牌行銷科每日工作推進紀錄｜PDCA 版</title>
+  <style>
+    :root {
+      --bg:#f6f4ef; --card:#fff; --text:#262626; --muted:#77716a; --line:#e5ded3;
+      --primary:#5b7f74; --primary-dark:#3f6259; --soft-green:#edf5f1; --soft-yellow:#fff7df;
+      --soft-red:#fff0ef; --soft-gray:#f2f2f2; --radius:18px; --shadow:0 10px 30px rgba(72,58,38,.08);
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .page { max-width:1280px; margin:0 auto; padding:40px 24px 80px; }
+    .hero { display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:stretch; margin-bottom:24px; }
+    .hero-main,.hero-side,.card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .hero-main { padding:34px; }
+    .hero-side { padding:24px; display:flex; flex-direction:column; justify-content:center; gap:14px; }
+    .eyebrow { display:inline-flex; gap:8px; padding:6px 12px; border-radius:999px; background:var(--soft-green); color:var(--primary-dark); font-size:13px; font-weight:800; margin-bottom:16px; }
+    h1 { margin:0 0 10px; font-size:34px; letter-spacing:-.03em; }
+    h2 { margin:0; font-size:22px; letter-spacing:-.02em; }
+    .desc,.hint { color:var(--muted); }
+    .desc { margin:0; font-size:16px; max-width:780px; }
+    .hint { font-size:13px; }
+    .stat-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .stat { background:#faf8f4; border:1px solid var(--line); border-radius:14px; padding:14px; }
+    .stat-label { color:var(--muted); font-size:12px; margin-bottom:3px; }
+    .stat-value { font-weight:900; font-size:24px; color:var(--primary-dark); }
+    .card { padding:24px; margin-top:24px; }
+    .section-title { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; }
+    form,.toolbar { display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
+    .toolbar { margin-bottom:16px; align-items:end; }
+    .field { display:flex; flex-direction:column; gap:7px; }
+    .col-2 { grid-column:span 2; } .col-3 { grid-column:span 3; } .col-4 { grid-column:span 4; }
+    .col-5 { grid-column:span 5; } .col-6 { grid-column:span 6; } .col-8 { grid-column:span 8; } .col-12 { grid-column:span 12; }
+    label { font-size:13px; color:#4c4742; font-weight:800; }
+    input,select,textarea { width:100%; border:1px solid var(--line); background:#fffdf9; border-radius:12px; padding:12px 13px; font:inherit; color:var(--text); outline:none; transition:.18s ease; }
+    input:focus,select:focus,textarea:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(91,127,116,.12); background:#fff; }
+    textarea { min-height:92px; resize:vertical; }
+    button { border:0; border-radius:999px; padding:11px 18px; font:inherit; font-weight:900; cursor:pointer; transition:.18s ease; }
+    .btn-primary { background:var(--primary); color:#fff; } .btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); }
+    .btn-secondary { background:#ece6dc; color:#4a433b; } .btn-secondary:hover { background:#ded6ca; }
+    .actions { grid-column:span 12; display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; padding-top:4px; }
+    .rule-box { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px; }
+    .rule { border:1px solid var(--line); border-radius:14px; padding:14px; background:#faf8f4; color:#4a433b; font-size:14px; }
+    .rule strong { display:block; color:var(--primary-dark); margin-bottom:4px; }
+    .people-manager,.email-row,.filter-row { display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; }
+    .people-input,.email-row .field { flex:1; min-width:260px; }
+    .people-list,.email-list { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .person-chip { display:inline-flex; align-items:center; gap:8px; background:var(--soft-green); color:var(--primary-dark); border:1px solid #d8e7df; border-radius:999px; padding:8px 12px; font-weight:800; }
+    .chip-delete { width:22px; height:22px; padding:0; border-radius:50%; background:#dfe9e4; color:#34564d; line-height:1; }
+    .send-note,.helper { color:var(--muted); font-size:13px; margin-top:10px; }
+    .submit-message { grid-column:span 12; display:none; padding:12px 14px; border-radius:12px; font-weight:800; }
+    .submit-message.ok { display:block; background:var(--soft-green); color:var(--primary-dark); }
+    .submit-message.warn { display:block; background:var(--soft-yellow); color:#775b10; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:16px; background:#fff; }
+    table { width:100%; border-collapse:collapse; min-width:1250px; }
+    th,td { padding:14px 13px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:14px; }
+    th { background:#faf8f4; color:#4c4742; font-size:13px; white-space:nowrap; }
+    tr:hover td { background:#fffdf9; }
+    .pill { display:inline-flex; align-items:center; border-radius:999px; padding:5px 10px; font-size:12px; font-weight:900; white-space:nowrap; }
+    .status-plan { background:#eef3ff; color:#385285; } .status-do { background:var(--soft-green); color:var(--primary-dark); }
+    .status-check { background:var(--soft-yellow); color:#80620e; } .status-act { background:#f1edf9; color:#5a437d; }
+    .status-coordinate { background:#fff1df; color:#8a5b16; } .status-risk { background:var(--soft-red); color:#a23c30; }
+    .status-wait { background:var(--soft-gray); color:#555; }
+    .weekly-yes { background:#eef3ff; color:#385285; } .weekly-no { background:#f2f2f2; color:#666; }
+    .delete-btn { background:#f2e4df; color:#9a3f31; padding:7px 11px; font-size:13px; }
+    .empty { display:none; padding:22px; text-align:center; color:var(--muted); }
+    a { color:var(--primary-dark); font-weight:800; }
+    .text-muted { color:var(--muted); }
+    @media (max-width:900px) {
+      .hero { grid-template-columns:1fr; }
+      .col-2,.col-3,.col-4,.col-5,.col-6,.col-8,.col-12 { grid-column:span 12; }
+      .rule-box { grid-template-columns:1fr; }
+      .section-title { align-items:flex-start; flex-direction:column; }
+    }
+    @media print {
+      .hero,.card:not(.printable),.actions,.people-manager,.email-row,.people-list,.email-list,.toolbar button { display:none !important; }
+      body { background:#fff; } .page { max-width:none; padding:0; } .card { box-shadow:none; border:0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">PDCA × 進度控管 × 低壓回報</div>
+        <h1>品牌行銷科每日工作推進紀錄</h1>
+        <p class="desc">這不是日報，也不是工時稽核。目的是讓每個人用最少文字回報「今天推進了什麼、目前卡在哪裡、明天要先做什麼」，主管則用 PDCA 快速判斷卡點、決策與跨部門協調需求。</p>
+      </div>
+      <aside class="hero-side">
+        <div class="stat-row">
+          <div class="stat"><div class="stat-label">今日新增</div><div class="stat-value" id="todayCount">0</div></div>
+          <div class="stat"><div class="stat-label">需週會討論</div><div class="stat-value" id="weeklyCount">0</div></div>
+        </div>
+        <div class="hint">填寫原則：每日 3–5 分鐘，重點寫交付物、卡點、明日優先事項。</div>
+      </aside>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>新增今日紀錄</h2>
+        <span class="hint">工作大項與主題類型用於分類；實際產品、檔期、活動請寫在「工作內容簡述」。</span>
+      </div>
+
+      <form id="progressForm">
+        <div class="field col-2">
+          <label for="date">日期</label>
+          <input type="date" id="date" required />
+        </div>
+
+        <div class="field col-2">
+          <label for="name">姓名</label>
+          <select id="name" required></select>
+        </div>
+
+        <div class="field col-4">
+          <label for="workCategory">工作大項</label>
+          <select id="workCategory" required></select>
+        </div>
+
+        <div class="field col-4">
+          <label for="workType">工作主題類型</label>
+          <select id="workType" required></select>
+        </div>
+
+        <div class="field col-6">
+          <label for="workSummary">工作內容簡述</label>
+          <input type="text" id="workSummary" placeholder="例：葉黃素新品上市 IMC 第一版架構、A8 LED 30 秒素材進稿確認" required />
+          <div class="helper">請寫清楚產品／活動／素材／系統名稱，但不需要拆到過細任務。</div>
+        </div>
+
+        <div class="field col-3">
+          <label for="status">PDCA 進度狀態</label>
+          <select id="status" required>
+            <option value="P｜計畫確認中">P｜計畫確認中</option>
+            <option value="D｜執行推進中">D｜執行推進中</option>
+            <option value="C｜成果檢核中">C｜成果檢核中</option>
+            <option value="A｜調整優化中">A｜調整優化中</option>
+            <option value="需協調支援">需協調支援</option>
+            <option value="有風險需決策">有風險需決策</option>
+            <option value="暫停等待">暫停等待</option>
+          </select>
+        </div>
+
+        <div class="field col-3">
+          <label for="weekly">需週會討論</label>
+          <select id="weekly" required>
+            <option value="否">否</option>
+            <option value="是">是</option>
+          </select>
+        </div>
+
+        <div class="field col-6">
+          <label for="progress">今日推進重點</label>
+          <textarea id="progress" placeholder="例：完成 KOL 名單初篩；已整理 3 位營養師合作方向。" required></textarea>
+        </div>
+
+        <div class="field col-6">
+          <label for="blocker">卡點或待協助事項</label>
+          <textarea id="blocker" placeholder="例：需主管確認預算上限，5/22 前回覆。若無可填：無。"></textarea>
+        </div>
+
+        <div class="field col-6">
+          <label for="next">明日優先事項</label>
+          <textarea id="next" placeholder="例：完成報價比較表；確認合作腳本方向。" required></textarea>
+        </div>
+
+        <div class="field col-6">
+          <label for="link">備註／連結</label>
+          <input type="url" id="link" placeholder="可貼 Google Drive、簡報、表單或素材連結" />
+        </div>
+
+        <div id="submitMessage" class="submit-message"></div>
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" id="resetBtn">清空欄位</button>
+          <button type="submit" class="btn-primary">新增紀錄</button>
+        </div>
+      </form>
+
+      <div class="rule-box">
+        <div class="rule"><strong>P｜Plan 計畫</strong>目標、時程、素材、預算或任務邊界仍在確認，需把「待確認項目」寫清楚。</div>
+        <div class="rule"><strong>D｜Do 執行</strong>任務正在產出或推進，今日重點應寫具體交付物、完成比例或已完成的決策。</div>
+        <div class="rule"><strong>C/A｜Check & Act</strong>已進入檢核、修正、優化或補強階段，卡點欄請寫需要誰給回饋或決策。</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>人員名單管理</h2>
+        <span class="hint">可自行新增或刪除填寫人員；下拉選單會同步更新。</span>
+      </div>
+      <div class="people-manager">
+        <div class="field people-input">
+          <label for="newPerson">新增人員</label>
+          <input type="text" id="newPerson" placeholder="輸入姓名，例如：Joyce" />
+        </div>
+        <button class="btn-primary" id="addPersonBtn" type="button">新增人員</button>
+      </div>
+      <div class="people-list" id="peopleList"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>主管通知設定</h2>
+        <span class="hint">當狀態為「需協調支援、有風險需決策、暫停等待」時，送出後會自動通知以下信箱。</span>
+      </div>
+      <div class="email-row">
+        <div class="field">
+          <label for="newSupervisorEmail">新增主管通知信箱</label>
+          <input type="email" id="newSupervisorEmail" placeholder="輸入 email，例如：manager@company.com" />
+        </div>
+        <button class="btn-primary" id="addSupervisorEmailBtn" type="button">新增信箱</button>
+      </div>
+      <div class="email-list" id="supervisorEmailList"></div>
+      <div class="send-note">預設通知信箱：alina.hsu@cathay-hcm.com.tw、christine.shieh@cathay-hcm.com.tw。可依需求新增或刪除。</div>
+    </section>
+
+    <section class="card printable">
+      <div class="section-title">
+        <h2>品牌行銷科進度總覽</h2>
+        <span class="hint">週會優先看：需協調支援、有風險需決策、暫停等待、需週會討論。</span>
+      </div>
+
+      <div class="filter-row" style="margin-bottom:18px;">
+        <div class="field" style="min-width:220px; flex:0 0 260px;">
+          <label for="filterMonth">依月份篩選</label>
+          <input type="month" id="filterMonth" />
+        </div>
+        <button type="button" id="clearMonthFilter" class="btn-secondary">顯示全部月份</button>
+        <div id="monthFilterHint" class="hint" style="padding-bottom:12px;">未篩選月份，顯示全部紀錄。</div>
+      </div>
+
+      <div class="toolbar">
+        <div class="field col-2">
+          <label for="filterName">篩選姓名</label>
+          <select id="filterName"></select>
+        </div>
+        <div class="field col-3">
+          <label for="filterCategory">篩選工作大項</label>
+          <select id="filterCategory"></select>
+        </div>
+        <div class="field col-3">
+          <label for="filterStatus">篩選 PDCA 狀態</label>
+          <select id="filterStatus">
+            <option value="全部">全部</option>
+            <option>P｜計畫確認中</option>
+            <option>D｜執行推進中</option>
+            <option>C｜成果檢核中</option>
+            <option>A｜調整優化中</option>
+            <option>需協調支援</option>
+            <option>有風險需決策</option>
+            <option>暫停等待</option>
+          </select>
+        </div>
+        <div class="field col-2">
+          <label for="filterWeekly">週會討論</label>
+          <select id="filterWeekly">
+            <option value="全部">全部</option>
+            <option value="是">只看需討論</option>
+            <option value="否">不需討論</option>
+          </select>
+        </div>
+        <div class="field col-2">
+          <label>&nbsp;</label>
+          <button class="btn-secondary" id="printBtn" type="button">列印／輸出 PDF</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>姓名</th>
+              <th>工作大項</th>
+              <th>主題類型</th>
+              <th>工作內容簡述</th>
+              <th>今日推進重點</th>
+              <th>PDCA 狀態</th>
+              <th>卡點／待協助</th>
+              <th>明日優先事項</th>
+              <th>週會</th>
+              <th>連結</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="recordsBody"></tbody>
+        </table>
+        <div class="empty" id="emptyState">目前尚無紀錄。請先新增一筆今日工作推進紀錄。</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzwriuoYdd2fidpWAgO2vYX_kbt05QHcXLtqy00OQoU2rTcrqboWVqmSR5uq7iZfms3fQ/exec';
+    const highAttentionStatuses = ['需協調支援', '有風險需決策', '暫停等待'];
+    const defaultPeople = ['Alina', 'Vivian', 'Min', 'Claire'];
+    const defaultSupervisorEmails = ['alina.hsu@cathay-hcm.com.tw', 'christine.shieh@cathay-hcm.com.tw'];
+
+    const workTypes = {
+      '品牌策略': ['上市規劃', 'IMC 規劃', '提案簡報', '視覺規劃', '腳本規劃', '進稿管理', '其他'],
+      '行銷活動': ['講座活動', '影音拍攝', 'Podcast／媒體合作', '異業合作', '其他'],
+      '戶外廣告': ['版位規劃', '版位挑選', '素材設計', '素材進稿', '上刊確認', '其他'],
+      '數位媒體': ['廣告投放', '內容媒體', '口碑論壇', 'KOL／部落客', '社群操作', '其他'],
+      '官網與電商': ['官網頁面', '商品頁', '商說圖', '購物流程', '預購活動', '其他'],
+      'LINE／CRM／會員': ['LINE 旅程', '會員旅程', 'EDM', '簡訊', '貼標／分眾', '系統串接', '其他'],
+      '輔銷與通路物料': ['DM', 'POP／展架', '據點陳列', '贈品配置', '商拍', '其他'],
+      '內部支援': ['教育訓練', '業務工具包', '簽呈／流程', '跨部門協作', '其他'],
+      '其他／臨時任務': ['其他']
+    };
+
+    const $ = id => document.getElementById(id);
+    const form = $('progressForm');
+    const recordsBody = $('recordsBody');
+    const emptyState = $('emptyState');
+    const todayCount = $('todayCount');
+    const weeklyCount = $('weeklyCount');
+    const nameSelect = $('name');
+    const workCategory = $('workCategory');
+    const workType = $('workType');
+    const newPerson = $('newPerson');
+    const addPersonBtn = $('addPersonBtn');
+    const peopleList = $('peopleList');
+    const newSupervisorEmail = $('newSupervisorEmail');
+    const addSupervisorEmailBtn = $('addSupervisorEmailBtn');
+    const supervisorEmailList = $('supervisorEmailList');
+    const submitMessage = $('submitMessage');
+
+    let people = JSON.parse(localStorage.getItem('dailyProgressPeople') || 'null') || defaultPeople;
+    let supervisorEmails = JSON.parse(localStorage.getItem('dailyProgressSupervisorEmails') || 'null') || defaultSupervisorEmails;
+    let records = JSON.parse(localStorage.getItem('dailyProgressRecords') || '[]');
+
+    function todayISO() {
+      const d = new Date();
+      const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+      return local.toISOString().slice(0, 10);
+    }
+
+    function escapeHTML(str) {
+      return String(str || '').replace(/[&<>'"]/g, tag => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'
+      }[tag]));
+    }
+
+    function statusClass(status) {
+      if (status.startsWith('P｜')) return 'status-plan';
+      if (status.startsWith('D｜')) return 'status-do';
+      if (status.startsWith('C｜')) return 'status-check';
+      if (status.startsWith('A｜')) return 'status-act';
+      if (status === '需協調支援') return 'status-coordinate';
+      if (status === '有風險需決策') return 'status-risk';
+      return 'status-wait';
+    }
+
+    function normalizeLegacyRecord(r) {
+      if (r.workCategory) return r;
+      const project = r.project || '';
+      const parts = project.split('｜');
+      return {
+        ...r,
+        workCategory: parts[0] || project || '其他／臨時任務',
+        workType: parts[1] || '其他',
+        workSummary: parts.slice(2).join('｜') || project || ''
+      };
+    }
+
+    records = records.map(normalizeLegacyRecord);
+    localStorage.setItem('dailyProgressRecords', JSON.stringify(records));
+
+    function saveRecords() { localStorage.setItem('dailyProgressRecords', JSON.stringify(records)); }
+    function savePeople() { localStorage.setItem('dailyProgressPeople', JSON.stringify(people)); }
+    function saveSupervisorEmails() { localStorage.setItem('dailyProgressSupervisorEmails', JSON.stringify(supervisorEmails)); }
+
+    function renderPeopleOptions() {
+      const currentName = nameSelect.value;
+      const currentFilter = $('filterName').value;
+      nameSelect.innerHTML = '<option value="">請選擇</option>' + people.map(p => `<option>${escapeHTML(p)}</option>`).join('');
+      $('filterName').innerHTML = '<option value="全部">全部</option>' + people.map(p => `<option>${escapeHTML(p)}</option>`).join('');
+      if (people.includes(currentName)) nameSelect.value = currentName;
+      $('filterName').value = people.includes(currentFilter) || currentFilter === '全部' ? currentFilter || '全部' : '全部';
+      peopleList.innerHTML = people.map(p => `
+        <span class="person-chip">${escapeHTML(p)}
+          <button class="chip-delete" type="button" onclick="deletePerson('${escapeHTML(p)}')" title="刪除此人員">×</button>
+        </span>
+      `).join('');
+    }
+
+    window.deletePerson = function(person) {
+      if (!confirm(`確定要刪除 ${person} 嗎？既有紀錄會保留。`)) return;
+      people = people.filter(p => p !== person);
+      savePeople();
+      renderPeopleOptions();
+      renderRecords();
+    };
+
+    function renderWorkOptions() {
+      const categories = Object.keys(workTypes);
+      workCategory.innerHTML = '<option value="">請選擇</option>' + categories.map(c => `<option>${escapeHTML(c)}</option>`).join('');
+      $('filterCategory').innerHTML = '<option value="全部">全部</option>' + categories.map(c => `<option>${escapeHTML(c)}</option>`).join('');
+    }
+
+    function updateWorkTypeOptions() {
+      const selected = workCategory.value;
+      const types = workTypes[selected] || [];
+      workType.innerHTML = '<option value="">請先選擇工作大項</option>' + types.map(t => `<option>${escapeHTML(t)}</option>`).join('');
+    }
+
+    function renderSupervisorEmails() {
+      supervisorEmailList.innerHTML = supervisorEmails.map(email => `
+        <span class="person-chip">${escapeHTML(email)}
+          <button class="chip-delete" type="button" onclick="deleteSupervisorEmail('${escapeHTML(email)}')" title="刪除此信箱">×</button>
+        </span>
+      `).join('');
+    }
+
+    window.deleteSupervisorEmail = function(email) {
+      if (!confirm(`確定要刪除 ${email} 嗎？`)) return;
+      supervisorEmails = supervisorEmails.filter(item => item !== email);
+      saveSupervisorEmails();
+      renderSupervisorEmails();
+    };
+
+    function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+    function showSubmitMessage(type, text) {
+      submitMessage.className = `submit-message ${type}`;
+      submitMessage.textContent = text;
+      window.setTimeout(() => {
+        submitMessage.className = 'submit-message';
+        submitMessage.textContent = '';
+      }, 6000);
+    }
+
+    async function syncToGoogleSheet(record) {
+      const payload = {
+        ...record,
+        project: `${record.workCategory}｜${record.workType}｜${record.workSummary}`,
+        supervisorEmails,
+        shouldNotify: highAttentionStatuses.includes(record.status),
+        source: '品牌行銷科每日工作推進紀錄'
+      };
+
+      try {
+        await fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const notifyText = highAttentionStatuses.includes(record.status) ? '，並已觸發主管通知' : '';
+        showSubmitMessage('ok', `已新增紀錄並送出到 Google Sheets${notifyText}。`);
+      } catch (error) {
+        console.error(error);
+        showSubmitMessage('warn', '已儲存在本機瀏覽器，但送出到 Google Sheets 失敗。請檢查 Apps Script 部署權限。');
+      }
+    }
+
+    function updateStats(filteredRecords) {
+      const today = todayISO();
+      todayCount.textContent = records.filter(r => r.date === today).length;
+      weeklyCount.textContent = records.filter(r => r.weekly === '是').length;
+
+      const selectedMonth = $('filterMonth').value;
+      $('monthFilterHint').textContent = selectedMonth
+        ? `目前顯示 ${selectedMonth}，共 ${filteredRecords.length} 筆；全部紀錄共 ${records.length} 筆。`
+        : '未篩選月份，顯示全部紀錄。';
+    }
+
+    function getFilteredRecords() {
+      const nameValue = $('filterName').value;
+      const categoryValue = $('filterCategory').value;
+      const statusValue = $('filterStatus').value;
+      const weeklyValue = $('filterWeekly').value;
+      const monthValue = $('filterMonth').value;
+
+      return records.filter(r => {
+        const matchMonth = !monthValue || String(r.date || '').slice(0, 7) === monthValue;
+        const matchName = nameValue === '全部' || r.name === nameValue;
+        const matchCategory = categoryValue === '全部' || r.workCategory === categoryValue;
+        const matchStatus = statusValue === '全部' || r.status === statusValue;
+        const matchWeekly = weeklyValue === '全部' || r.weekly === weeklyValue;
+        return matchMonth && matchName && matchCategory && matchStatus && matchWeekly;
+      });
+    }
+
+    function renderRecords() {
+      const filtered = getFilteredRecords();
+      recordsBody.innerHTML = '';
+
+      filtered.forEach(r => {
+        const originalIndex = records.indexOf(r);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHTML(r.date)}</td>
+          <td><strong>${escapeHTML(r.name)}</strong></td>
+          <td>${escapeHTML(r.workCategory)}</td>
+          <td>${escapeHTML(r.workType)}</td>
+          <td>${escapeHTML(r.workSummary)}</td>
+          <td>${escapeHTML(r.progress).replace(/\n/g, '<br>')}</td>
+          <td><span class="pill ${statusClass(r.status)}">${escapeHTML(r.status)}</span></td>
+          <td>${escapeHTML(r.blocker || '無').replace(/\n/g, '<br>')}</td>
+          <td>${escapeHTML(r.next).replace(/\n/g, '<br>')}</td>
+          <td><span class="pill ${r.weekly === '是' ? 'weekly-yes' : 'weekly-no'}">${escapeHTML(r.weekly)}</span></td>
+          <td>${r.link ? `<a href="${escapeHTML(r.link)}" target="_blank" rel="noopener">開啟</a>` : '<span class="text-muted">—</span>'}</td>
+          <td><button class="delete-btn" type="button" onclick="deleteRecord(${originalIndex})">刪除</button></td>
+        `;
+        recordsBody.appendChild(tr);
+      });
+
+      emptyState.style.display = filtered.length ? 'none' : 'block';
+      updateStats(filtered);
+    }
+
+    window.deleteRecord = function(index) {
+      if (!confirm('確定要刪除這筆紀錄嗎？')) return;
+      records.splice(index, 1);
+      saveRecords();
+      renderRecords();
+    };
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const record = {
+        date: $('date').value,
+        name: $('name').value,
+        workCategory: $('workCategory').value,
+        workType: $('workType').value,
+        workSummary: $('workSummary').value.trim(),
+        project: `${$('workCategory').value}｜${$('workType').value}｜${$('workSummary').value.trim()}`,
+        status: $('status').value,
+        weekly: $('weekly').value,
+        progress: $('progress').value.trim(),
+        blocker: $('blocker').value.trim(),
+        next: $('next').value.trim(),
+        link: $('link').value.trim()
+      };
+
+      records.unshift(record);
+      saveRecords();
+      await syncToGoogleSheet(record);
+      form.reset();
+      $('date').value = todayISO();
+      updateWorkTypeOptions();
+      renderRecords();
+    });
+
+    $('resetBtn').addEventListener('click', () => {
+      form.reset();
+      $('date').value = todayISO();
+      updateWorkTypeOptions();
+    });
+
+    addPersonBtn.addEventListener('click', () => {
+      const value = newPerson.value.trim();
+      if (!value) return;
+      if (people.includes(value)) { alert('此人員已存在。'); return; }
+      people.push(value);
+      savePeople();
+      newPerson.value = '';
+      renderPeopleOptions();
+    });
+
+    newPerson.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); addPersonBtn.click(); }
+    });
+
+    addSupervisorEmailBtn.addEventListener('click', () => {
+      const value = newSupervisorEmail.value.trim();
+      if (!value) return;
+      if (!isValidEmail(value)) { alert('請輸入正確的 email 格式。'); return; }
+      if (supervisorEmails.includes(value)) { alert('此信箱已存在。'); return; }
+      supervisorEmails.push(value);
+      saveSupervisorEmails();
+      newSupervisorEmail.value = '';
+      renderSupervisorEmails();
+    });
+
+    newSupervisorEmail.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); addSupervisorEmailBtn.click(); }
+    });
+
+    workCategory.addEventListener('change', updateWorkTypeOptions);
+    ['filterName','filterCategory','filterStatus','filterWeekly','filterMonth'].forEach(id => $(id).addEventListener('change', renderRecords));
+    $('clearMonthFilter').addEventListener('click', () => { $('filterMonth').value = ''; renderRecords(); });
+    $('printBtn').addEventListener('click', () => window.print());
+
+    if (!records.length) {
+      records = [
+        {
+          date: todayISO(),
+          name: 'Vivian',
+          workCategory: 'LINE／CRM／會員',
+          workType: '貼標／分眾',
+          workSummary: '互動測驗題目第一版與系統欄位確認',
+          project: 'LINE／CRM／會員｜貼標／分眾｜互動測驗題目第一版與系統欄位確認',
+          status: '需協調支援',
+          weekly: '是',
+          progress: '完成互動測驗題目第一版；已與系統商確認欄位可行性。',
+          blocker: '需主管確認貼標命名規則，建議於本週會議定案。',
+          next: '整理貼標邏輯與自動化旅程觸發條件。',
+          link: ''
+        },
+        {
+          date: todayISO(),
+          name: 'Min',
+          workCategory: '數位媒體',
+          workType: 'KOL／部落客',
+          workSummary: '營養師合作名單初篩',
+          project: '數位媒體｜KOL／部落客｜營養師合作名單初篩',
+          status: 'D｜執行推進中',
+          weekly: '否',
+          progress: '完成 8 位 KOL 名單初篩；已標記合作主題與預估報價區間。',
+          blocker: '無',
+          next: '補齊互動率與過往保健品合作案例。',
+          link: ''
+        }
+      ];
+      saveRecords();
+    }
+
+    $('date').value = todayISO();
+    renderWorkOptions();
+    updateWorkTypeOptions();
+    renderPeopleOptions();
+    renderSupervisorEmails();
+    renderRecords();
+  </script>
+</body>
+</html>
