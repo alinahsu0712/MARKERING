@@ -30,7 +30,7 @@ body{font-family:'Noto Sans TC','Microsoft JhengHei',Arial,sans-serif;background
 const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzwriuoYdd2fidpWAgO2vYX_kbt05QHcXLtqy00OQoU2rTcrqboWVqmSR5uq7iZfms3fQ/exec';
 const high=['需協調支援','有風險需決策','暫停等待'];
 const workTypes={'品牌策略':['上市規劃','IMC 規劃','提案簡報','視覺規劃','腳本規劃','進稿管理','其他'],'行銷活動':['講座活動','影音拍攝','Podcast／媒體合作','異業合作','其他'],'戶外廣告':['版位規劃','版位挑選','素材設計','素材進稿','上刊確認','其他'],'數位媒體':['廣告投放','內容媒體','口碑論壇','KOL／部落客','社群操作','其他'],'官網與電商':['官網頁面','商品頁','商說圖','購物流程','預購活動','其他'],'LINE／CRM／會員':['LINE 旅程','會員旅程','EDM','簡訊','貼標／分眾','系統串接','其他'],'輔銷與通路物料':['DM','POP／展架','據點陳列','贈品配置','商拍','其他'],'內部支援':['教育訓練','業務工具包','簽呈／流程','跨部門協作','其他'],'其他／臨時任務':['其他']};
-let people=JSON.parse(localStorage.people||'null')||['Alina','Vivian','Min','Claire'];let emails=JSON.parse(localStorage.emails||'null')||['alina.hsu@cathay-hcm.com.tw','christine.shieh@cathay-hcm.com.tw'];let records=JSON.parse(localStorage.records||'[]');
+let people=JSON.parse(localStorage.people||'null')||['Alina','Vivian','Min','Claire'];let emails=JSON.parse(localStorage.emails||'null')||['alina.hsu@cathay-hcm.com.tw'];let records=JSON.parse(localStorage.records||'[]');
 const $=id=>document.getElementById(id), esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function today(){let d=new Date();d=new Date(d.getTime()-d.getTimezoneOffset()*60000);return d.toISOString().slice(0,10)}
 function normStatus(s){return String(s||'').replace(/\s+/g,'').replace(/[|｜]/g,'｜')}
