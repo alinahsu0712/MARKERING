@@ -1,9 +1,51 @@
 # Obsidian × PAIOS 整合規劃書 v2.0
 
 > 交付對象:Codex(Builder)。審查對象:ChatGPT(Architecture Review Board)。
-> 本文件**取代** v1.0(《Obsidian建置規劃書.md》)。v1.0 假設從零建立獨立 vault;在 PAIOS 架構已定案的前提下,該假設不再成立。
+> 本文件**自包含**:不需要任何 Chat 對話紀錄作為上下文,直接整份貼給 Codex 即可執行。
+> 本文件取代先前「獨立 vault」版本的規劃(v1.0);在 PAIOS 架構已定案的前提下,該假設不再成立。
 > 版本:v2.0(2026-07-08)
 > **本文件不是架構文件。** 它不新增架構層、不新增治理規則、不建立 Agent。若本文件任何內容與 Workspace 正式文件衝突,**一律以 Workspace 正式文件為準**,Codex 應記錄偏差而非修改架構。
+
+---
+
+## 第零部分:架構保護保證(Codex 必須最先讀這一節)
+
+本任務對 PAIOS 的影響範圍被硬性限制如下。這一節的效力高於本文件其餘所有章節。
+
+### 0.1 唯讀清單(絕對不可修改、不可移動、不可刪除)
+
+- PAIOS Constitution(憲法)
+- 全部 17 份 Architecture Documents
+- Agent Factory 全部文件
+- Governance、Review Process、Collaboration Framework
+- Runtime Specifications
+- Codex Implementation Roadmap
+- 其他任何**既有**檔案(唯一例外:`.gitignore` 允許**追加**行,不允許刪改既有行)
+
+### 0.2 寫入白名單(只允許新增以下內容)
+
+1. Owner 區內的**新**資料夾與**新** .md 檔案(路徑依 Folder Convention 映射)
+2. `.obsidian/` 目錄下的設定檔(全部為新增)
+3. `.gitignore` 的追加行
+
+白名單以外的任何寫入 = 任務失敗,必須回退。
+
+### 0.3 執行方式(強制)
+
+1. **必須在新分支上執行**(例:`codex/obsidian-interface-layer`),不得直接改 main。
+2. 完成後**不自行合併**。輸出 diff 摘要,交 Owner(必要時經 ChatGPT Review Board)確認後才合併。
+3. Owner 驗證指令(合併前執行,輸出必須只包含白名單內的路徑):
+   ```bash
+   git diff --stat main...HEAD
+   ```
+   若出現任何架構文件、Factory、Governance 路徑 → 不合併,整支分支捨棄。
+
+### 0.4 中止條件(遇到即停,回報 Owner,不得自行處置)
+
+- Folder Convention 中找不到適合放置 Owner 區的位置
+- Workspace 已存在 `.obsidian/` 或同名資料夾
+- 本文件任何指示與 Constitution / Governance 衝突
+- 需要修改任何唯讀清單中的檔案才能完成任務
 
 ---
 
@@ -244,12 +286,13 @@ captured: {{date}}
 
 ### 2.7 驗收標準
 
+- [ ] 在新分支上執行(第零部分 0.3),未直接改 main
 - [ ] 已先讀 Folder Convention 並產出《Obsidian整合對照表.md》
-- [ ] 所有新增檔案僅位於 Owner 區、`.obsidian/`、`.gitignore`
-- [ ] 未修改任何架構文件、Factory 文件、Governance 文件
+- [ ] `git diff --stat main...HEAD` 輸出僅含白名單路徑(0.2)
+- [ ] 未修改任何架構文件、Factory 文件、Governance 文件(0.1)
 - [ ] 4 模板 + 設定檔 + 首頁建立完成,UTF-8,frontmatter 合法
 - [ ] 連結全部為標準 Markdown 相對路徑連結
-- [ ] Commit 訊息:`Add Obsidian interface layer for Owner (per Obsidian x PAIOS plan v2.0)`,已 push
+- [ ] Commit 訊息:`Add Obsidian interface layer for Owner (per Obsidian x PAIOS plan v2.0)`,已 push;**等待 Owner 確認後才合併**
 
 ---
 
